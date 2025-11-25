@@ -1,0 +1,27 @@
+{
+    "chat.agent.enabled": false,
+    "chat.commandCenter.enabled": false,
+    "chat.checkpoints.enabled": false,
+    "chat.detectParticipant.enabled": false,
+    "chat.emptyChatState.enabled": false,
+    "chat.implicitContext.suggestedContext": false,
+    "chat.promptFiles": false,
+    "chat.sendElementsToChat.attachCSS": false,
+    "chat.sendElementsToChat.attachImages": false,
+    "chat.sendElementsToChat.enabled": false,
+    "chat.todoListTool.descriptionField": false,
+    "chat.undoRequests.restoreInput": false,
+    "inlineChat.lineNaturalLanguageHint": false,
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/cho/MafiaGame/**/*.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx-swt.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.base.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.controls.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.fxml.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.graphics.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.media.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.swing.jar",
+        "/Users/cho/Downloads/javafx-sdk-17.0.17/lib/javafx.web.jar"
+    ]
+}

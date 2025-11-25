@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame0-main 복사본_459a3be5"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame0-main_7f602c84"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame0-main_a7769a13"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "MafiaGame_7f9b984c"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "MafiaGame"
+        },
+        {
+            "type": "java",
+            "name": "Run JavaFX Main",
+            "request": "launch",
+            "mainClass": "client.ui.Main",
+            "vmArgs": "--module-path \"/Users/cho/Downloads/javafx-sdk-17.0.17/lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}
+
+

@@ -1,0 +1,93 @@
+/* ================================
+   Lobby.css — 다크 모드 통일 스타일
+   ================================ */
+
+/* ===== ComboBox 기본 스타일 ===== */
+.combo-box-base,
+.combo-box {
+    -fx-background-color: #222222;
+    -fx-border-color: #444444;
+    -fx-border-width: 1px;
+    -fx-background-radius: 3px;
+    -fx-border-radius: 3px;
+}
+
+/* ComboBox 텍스트 영역 - 최우선 순위 */
+.combo-box-base > .list-cell,
+.combo-box > .list-cell {
+    -fx-text-fill: #ffffff !important;
+    -fx-background-color: transparent;
+    -fx-font-size: 14px;
+    -fx-padding: 5 10;
+}
+
+/* ComboBox 화살표 버튼 영역 */
+.combo-box-base > .arrow-button,
+.combo-box > .arrow-button {
+    -fx-background-color: #2a2a2a;
+    -fx-background-radius: 0 3 3 0;
+    -fx-border-color: #444444;
+}
+
+/* ComboBox 화살표 */
+.combo-box-base .arrow,
+.combo-box .arrow {
+    -fx-background-color: #ffffff;
+    -fx-padding: 4;
+    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+}
+
+/* ComboBox 호버 */
+.combo-box-base:hover,
+.combo-box:hover {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #555555;
+}
+
+.combo-box-base:hover > .arrow-button,
+.combo-box:hover > .arrow-button {
+    -fx-background-color: #333333;
+}
+
+/* ComboBox 포커스 */
+.combo-box-base:focused,
+.combo-box:focused {
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #c0392b;
+    -fx-border-width: 2px;
+}
+
+/* ===== 드롭다운 팝업 스타일 ===== */
+.combo-box-popup > .list-view {
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #444444;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0, 0, 2);
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-text-fill: #ffffff !important;
+    -fx-background-color: #1a1a1a;
+    -fx-padding: 8 12;
+    -fx-font-size: 14px;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover {
+    -fx-background-color: #333333 !important;
+    -fx-text-fill: #ffffff !important;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:selected {
+    -fx-background-color: #c0392b !important;
+    -fx-text-fill: #ffffff !important;
+}
+
+/* ===== TextField 스타일 (참고용) ===== */
+.text-field {
+    -fx-text-fill: #ffffff;
+}
+
+.text-field:focused {
+    -fx-border-color: #c0392b;
+    -fx-border-width: 2px;
+}

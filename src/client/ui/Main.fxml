@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="client.ui.MainController">
+
+    <center>
+        <TextArea fx:id="chatArea" editable="false" wrapText="true"/>
+    </center>
+
+    <bottom>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <TextField fx:id="inputField" promptText="메시지를 입력하세요" HBox.hgrow="ALWAYS"/>
+            <Button text="Send" fx:id="sendButton" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
+
+
