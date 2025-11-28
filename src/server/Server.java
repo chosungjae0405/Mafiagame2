@@ -58,7 +58,10 @@ public class Server {
 
         synchronized (rooms) {
             for (Room r : rooms) {
-                sb.append("#")
+                // 비밀번호가 있으면 🔒 아이콘 추가
+                String lockIcon = r.hasPassword() ? "🔒 " : "";
+                sb.append(lockIcon)
+                  .append("#")
                   .append(r.getId())
                   .append(" ")
                   .append(r.getName())

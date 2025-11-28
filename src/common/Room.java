@@ -20,6 +20,7 @@ public class Room {
     private int limit = 10;         // 최대 인원
     private String hostNickname;    // 방장 닉네임
     private String mode = "CLASSIC"; // 기본 모드
+    private String password = "";    // 방 비밀번호 (빈 문자열 = 비밀번호 없음)
 
     public Room(int id, String name) {
         this.id = id;
@@ -67,6 +68,27 @@ public class Room {
         this.mode = mode;
     }
 
+    /** 비밀번호 반환 */
+    public String getPassword() {
+        return password;
+    }
+
+    /** 비밀번호 설정 */
+    public void setPassword(String password) {
+        this.password = password != null ? password : "";
+    }
+
+    /** 비밀번호가 설정되어 있는지 확인 */
+    public boolean hasPassword() {
+        return password != null && !password.isEmpty();
+    }
+
+    /** 비밀번호 검증 */
+    public boolean checkPassword(String inputPassword) {
+        if (!hasPassword()) return true; // 비밀번호 없으면 항상 통과
+        return password.equals(inputPassword);
+    }
+
     /** 현재 인원 수 */
     public int getCurrentPlayers() {
         return players.size();
@@ -74,6 +96,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return "#" + id + " " + name + " [" + mode + "] (" + getCurrentPlayers() + "/" + limit + ")";
+        String lockIcon = hasPassword() ? "🔒 " : "";
+        return lockIcon + "#" + id + " " + name + " [" + mode + "] (" + getCurrentPlayers() + "/" + limit + ")";
     }
 }

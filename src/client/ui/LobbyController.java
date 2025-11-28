@@ -13,6 +13,7 @@ public class LobbyController {
 
     @FXML private TextField nicknameField;
     @FXML private TextField roomNameField;
+    @FXML private TextField passwordField;
     @FXML private ListView<String> roomList;
     @FXML private Label statusLabel;
 
@@ -26,67 +27,31 @@ public class LobbyController {
 
         client = new Client();
 
-        // 서버 연결 (여기서 메시지 핸들러 등록됨)
+        // 서버 연결
         if (!client.connect("localhost", 6000, this::onMessageReceived)) {
             statusLabel.setText("❌ 서버 연결 실패");
             return;
         }
 
-        // 기본 모드 / 인원 설정
+        // 기본 모드 설정
         if (modeBox != null) {
             modeBox.getItems().setAll("CLASSIC", "SPECIAL");
-            
-            // ComboBox 스타일 강제 적용
-            modeBox.setStyle(
-                "-fx-background-color: #222222; " +
-                "-fx-border-color: #444444; " +
-                "-fx-border-width: 1px; " +
-                "-fx-border-radius: 3px; " +
-                "-fx-background-radius: 3px;"
-            );
-            
-            // ButtonCell 스타일 (선택된 항목 표시)
-            modeBox.setButtonCell(new javafx.scene.control.ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText("Select mode");
-                        setStyle("-fx-text-fill: #777777;");
-                    } else {
-                        setText(item);
-                        setStyle("-fx-text-fill: #ffffff; -fx-font-size: 14px;");
-                    }
-                    setStyle(getStyle() + "-fx-background-color: transparent;");
-                }
-            });
         }
 
+        // 기본 인원 설정
         if (limitBox != null) {
             limitBox.getItems().setAll(5, 6, 7, 8, 9, 10);
-            
-            // ComboBox 스타일 강제 적용
-            limitBox.setStyle(
-                "-fx-background-color: #222222; " +
-                "-fx-border-color: #444444; " +
-                "-fx-border-width: 1px; " +
-                "-fx-border-radius: 3px; " +
-                "-fx-background-radius: 3px;"
-            );
-            
-            // ButtonCell 스타일 (선택된 항목 표시)
-            limitBox.setButtonCell(new javafx.scene.control.ListCell<Integer>() {
-                @Override
-                protected void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText("5~10 players");
-                        setStyle("-fx-text-fill: #777777;");
-                    } else {
-                        setText(item + " players");
-                        setStyle("-fx-text-fill: #ffffff; -fx-font-size: 14px;");
-                    }
-                    setStyle(getStyle() + "-fx-background-color: transparent;");
+        }
+
+        // 비밀번호 필드 - 숫자 4자리만 입력 가능
+        if (passwordField != null) {
+            passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    // 숫자가 아닌 문자 제거
+                    passwordField.setText(newValue.replaceAll("[^\\d]", ""));
+                } else if (newValue.length() > 4) {
+                    // 4자리 초과 입력 방지
+                    passwordField.setText(newValue.substring(0, 4));
                 }
             });
         }
@@ -103,7 +68,7 @@ public class LobbyController {
             Platform.runLater(() -> updateRoomList(msg));
         }
 
-        // 방 생성 완료 → 새 목록 자동 반영됨 (서버 broadcast)
+        // 방 생성 완료
         else if (msg.startsWith("ROOM_CREATED")) {
             client.send("GET_ROOMS");
         }
@@ -123,7 +88,14 @@ public class LobbyController {
         // 방 입장 실패
         else if (msg.startsWith("JOIN_FAIL|")) {
             Platform.runLater(() -> {
-                String reason = msg.contains("FULL") ? "방이 꽉 찼습니다." : "방을 찾을 수 없습니다.";
+                String reason;
+                if (msg.contains("FULL")) {
+                    reason = "방이 꽉 찼습니다.";
+                } else if (msg.contains("WRONG_PASSWORD")) {
+                    reason = "비밀번호가 틀렸습니다.";
+                } else {
+                    reason = "방을 찾을 수 없습니다.";
+                }
                 statusLabel.setText("❌ 입장 실패: " + reason);
             });
         }
@@ -166,10 +138,25 @@ public class LobbyController {
         Integer limitValue = (limitBox != null) ? limitBox.getValue() : null;
         int limit = (limitValue != null) ? limitValue : 10;
 
-        // 서버에 방 생성 요청 (방장 닉네임 + 모드 + 인원수 함께 전송)
-        client.send("CREATE_ROOM|" + nickname + "|" + roomName + "|" + mode + "|" + limit);
+        // 비밀번호 검증 (선택사항)
+        String password = (passwordField != null) ? passwordField.getText().trim() : "";
+        
+        if (!password.isEmpty()) {
+            if (password.length() != 4) {
+                statusLabel.setText("❌ 비밀번호는 정확히 4자리 숫자여야 합니다.");
+                return;
+            }
+            if (!password.matches("\\d{4}")) {
+                statusLabel.setText("❌ 비밀번호는 숫자만 가능합니다.");
+                return;
+            }
+        }
 
-        statusLabel.setText("방 생성 완료! (방장: " + nickname + ", 모드: " + mode + ", 인원: " + limit + ")");
+        // 서버에 방 생성 요청 (비밀번호 포함)
+        client.send("CREATE_ROOM|" + nickname + "|" + roomName + "|" + mode + "|" + limit + "|" + password);
+
+        String pwdInfo = password.isEmpty() ? "비밀번호 없음" : "비밀번호 설정됨";
+        statusLabel.setText("방 생성 완료! (방장: " + nickname + ", 모드: " + mode + ", 인원: " + limit + ", " + pwdInfo + ")");
     }
 
     /** 방 입장 버튼 클릭 */
@@ -188,10 +175,50 @@ public class LobbyController {
             return;
         }
 
-        // "#0 TestRoom [CLASSIC] (1/10)" → #0 → id = 0
-        String roomId = selected.split(" ")[0].substring(1).trim();
+        // 비밀번호가 설정된 방인지 확인 (🔒 아이콘 확인)
+        boolean hasPassword = selected.startsWith("🔒");
+        
+        String password = "";
+        
+        if (hasPassword) {
+            // 비밀번호 입력 다이얼로그
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("비밀번호 입력");
+            dialog.setHeaderText("이 방은 비밀번호로 보호되어 있습니다.");
+            dialog.setContentText("비밀번호 (4자리):");
+            
+            dialog.getEditor().setPromptText("4자리 숫자 입력");
+            
+            // 입력 제한 (4자리 숫자만)
+            dialog.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                    dialog.getEditor().setText(newValue.replaceAll("[^\\d]", ""));
+                } else if (newValue.length() > 4) {
+                    dialog.getEditor().setText(newValue.substring(0, 4));
+                }
+            });
+            
+            var result = dialog.showAndWait();
+            if (result.isPresent()) {
+                password = result.get().trim();
+                
+                if (password.length() != 4) {
+                    statusLabel.setText("❌ 비밀번호는 4자리 숫자여야 합니다.");
+                    return;
+                }
+            } else {
+                // 사용자가 취소함
+                statusLabel.setText("입장이 취소되었습니다.");
+                return;
+            }
+        }
 
-        client.send("JOIN_ROOM|" + nickname + "|" + roomId);
+        // 방 ID 추출
+        String roomIdPart = hasPassword ? selected.split(" ")[1] : selected.split(" ")[0];
+        String roomId = roomIdPart.substring(1).trim();
+
+        // 비밀번호 포함하여 서버에 전송
+        client.send("JOIN_ROOM|" + nickname + "|" + roomId + "|" + password);
         statusLabel.setText("입장 시도 중...");
     }
 

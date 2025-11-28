@@ -99,6 +99,20 @@
                           "/>
             </VBox>
 
+            <!-- Password (Optional) -->
+            <VBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Password (Optional, 4 digits)"
+                       style="-fx-text-fill: #cccccc; -fx-font-size: 14px;"/>
+                <TextField fx:id="passwordField"
+                           promptText="Enter 4-digit password (optional)"
+                           style="
+                                -fx-background-color: #222222;
+                                -fx-control-inner-background: #222222;
+                                -fx-text-fill: #ffffff;
+                                -fx-prompt-text-fill: #777777;
+                           "/>
+            </VBox>
+
             <!-- Room List -->
             <VBox alignment="CENTER" spacing="8">
                 <Label text="Available Rooms"

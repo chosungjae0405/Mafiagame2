@@ -6,6 +6,34 @@
             "name": "Server",
             "request": "launch",
             "mainClass": "server.Server",
+            "projectName": "Mafiagame(비밀번호 기능까지 구현)_78f05474"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame 비밀번호 ui만,서버 문제 X 복사본_d43f679f"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame0-main  비밀번호 기능까지 구현_8fa606bf"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
+            "projectName": "Mafiagame0-main  복사본_17c9e77d"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "server.Server",
             "projectName": "Mafiagame0-main 복사본_459a3be5"
         },
         {
